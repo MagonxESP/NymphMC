@@ -10,12 +10,12 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onWorldBorderFillStart(WorldBorderFillStartEvent event) {
-        Nymph.broadcastMessage("Se ha iniciado el preprocesado del mundo " + event.getFillTask().refWorld());
+        Nymph.broadcastMessage("Se ha iniciado el preprocesado del mundo " + event.getFillTask().refWorld(), true);
     }
 
     @EventHandler
     public void onWorldBorderFillEnd(WorldBorderFillFinishedEvent event) {
-        Nymph.broadcastMessage("Se ha terminado el preprocesado del mundo " + event.getWorld().getName());
+        Nymph.broadcastMessage("Se ha terminado el preprocesado del mundo " + event.getWorld().getName(), true);
     }
 
 }

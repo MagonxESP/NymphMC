@@ -9,7 +9,7 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onServerLoad(ServerLoadEvent event) {
-        Nymph.getPlugin().getLogger().info("El servidor se ha iniciado!");
+        Nymph.broadcastMessage("El servidor se ha iniciado!", false);
     }
 
 }

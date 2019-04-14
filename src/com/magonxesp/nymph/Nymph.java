@@ -8,6 +8,11 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.magonxesp.nymph.listener.ServerListener;
 import org.bukkit.scheduler.BukkitScheduler;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.logging.Level;
 
 
 public class Nymph extends JavaPlugin {
@@ -41,9 +46,32 @@ public class Nymph extends JavaPlugin {
         return Nymph.getPlugin(Nymph.class);
     }
 
-    public static void broadcastMessage(String msg) {
-        String prefix = "[" + Nymph.class + "]";
-        Bukkit.broadcastMessage(prefix + " " + msg);
+    private static void sendStatus(String status) {
+        try {
+            URL url = new URL("http://192.168.1.46:5000/post");
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request.setRequestMethod("POST");
+            request.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            String params = "status=" + status;
+            request.setDoOutput(true);
+
+            DataOutputStream outputStream = new DataOutputStream(request.getOutputStream());
+            outputStream.writeBytes(params);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            getPlugin().getLogger().log(Level.WARNING, e.getMessage());
+        }
+    }
+
+    public static void broadcastMessage(String msg, boolean isInGame) {
+        if (isInGame) {
+            String prefix = "[" + Nymph.class + "]";
+            Bukkit.broadcastMessage(prefix + " " + msg);
+        }
+
+        sendStatus(msg);
     }
 
 }
