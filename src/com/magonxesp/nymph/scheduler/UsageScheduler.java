@@ -5,6 +5,7 @@ import com.magonxesp.nymph.Nymph;
 public class UsageScheduler implements Runnable {
 
     private Runtime runtime;
+    private boolean lowRamUsageAlerted = false;
 
     public UsageScheduler() {
         runtime = Runtime.getRuntime();
@@ -18,9 +19,14 @@ public class UsageScheduler implements Runnable {
     private void alertOnLowMemory() {
         float free = getMemoryFree();
 
-        if (free < 512) {
+        if (free < 512 && !lowRamUsageAlerted) {
             String msg = "Queda poca memoria ram en el servidor (" + free + "MB libre)";
             Nymph.broadcastMessage(msg, false);
+            lowRamUsageAlerted = true;
+        } else if (free > 512 && lowRamUsageAlerted) {
+            String msg = "El servidor vuelve a tener ram UwU";
+            Nymph.broadcastMessage(msg, false);
+            lowRamUsageAlerted = false;
         }
 
         Nymph.getPlugin().getLogger().info("Memory free " + free + "MB");
