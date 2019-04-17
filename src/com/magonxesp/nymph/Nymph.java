@@ -34,7 +34,7 @@ public class Nymph extends JavaPlugin {
         pluginManager.registerEvents(new WorldListener(), this);
 
         // scheduler tasks
-        scheduler.scheduleSyncRepeatingTask(this, new UsageScheduler(), 0, 5000); // each 5 seconds
+        scheduler.scheduleSyncRepeatingTask(this, new UsageScheduler(), 0, 5 * 20); // each 5 seconds
 
         getLogger().info("Nymph enabled!");
     }
