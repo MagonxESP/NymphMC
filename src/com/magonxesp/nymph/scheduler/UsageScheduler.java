@@ -18,10 +18,12 @@ public class UsageScheduler implements Runnable {
     private void alertOnLowMemory() {
         float free = getMemoryFree();
 
-        if (free < 250) {
+        if (free < 512) {
             String msg = "Queda poca memoria ram en el servidor (" + free + "MB libre)";
             Nymph.broadcastMessage(msg, false);
         }
+
+        Nymph.getPlugin().getLogger().info("Memory free " + free + "MB");
     }
 
     private float getMemoryFree() {
