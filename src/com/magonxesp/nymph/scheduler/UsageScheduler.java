@@ -28,8 +28,6 @@ public class UsageScheduler implements Runnable {
             Nymph.broadcastMessage(msg, false);
             lowRamUsageAlerted = false;
         }
-
-        Nymph.getPlugin().getLogger().info("Memory free " + free + "MB");
     }
 
     private float getMemoryFree() {
