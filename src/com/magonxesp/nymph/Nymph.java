@@ -1,6 +1,7 @@
 package com.magonxesp.nymph;
 
 
+import com.magonxesp.nymph.command.FreeramCommand;
 import com.magonxesp.nymph.listener.WorldListener;
 import com.magonxesp.nymph.scheduler.UsageScheduler;
 import org.bukkit.Bukkit;
@@ -35,6 +36,13 @@ public class Nymph extends JavaPlugin {
 
         // scheduler tasks
         scheduler.scheduleSyncRepeatingTask(this, new UsageScheduler(), 0, 5 * 20); // each 5 seconds
+
+        try {
+            // command register
+            getCommand("freeram").setExecutor(new FreeramCommand());
+        } catch (NullPointerException e) {
+            getLogger().warning(e.getMessage());
+        }
 
         getLogger().info("Nymph enabled!");
     }
