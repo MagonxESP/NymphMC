@@ -45,7 +45,7 @@ public class Nymph extends JavaPlugin {
 
     public static void broadcastMessage(String msg, boolean isInGame) {
         if (isInGame) {
-            String prefix = "[" + Nymph.class + "]";
+            String prefix = "[" + Nymph.class.getName() + "]";
             Bukkit.broadcastMessage(prefix + " " + msg);
         }
 
