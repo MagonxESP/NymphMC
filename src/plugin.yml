@@ -8,3 +8,8 @@ commands:
     usage: /freeram
     permission: Nymph.system.freeram
     permission-message: You don't have permission to execute this command!
+  spawnnymph:
+    description: Spawn Nymph NPC entity
+    usage: /invokenymph
+    permission: Nymph.npc.spawn
+    permission-message: You don't have permission to execute this command!
