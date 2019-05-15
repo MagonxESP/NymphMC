@@ -11,6 +11,7 @@ import com.magonxesp.nymph.listener.ServerListener;
 import org.bukkit.scheduler.BukkitScheduler;
 import java.io.IOException;
 import com.magonxesp.nymph.http.HttpRequest;
+import java.io.File;
 
 
 public class Nymph extends JavaPlugin {
@@ -71,6 +72,22 @@ public class Nymph extends JavaPlugin {
         }
 
         Nymph.getPlugin().getLogger().info("[Broadcast] " + msg);
+    }
+
+    public static File getPluginDir() {
+        File pluginDirectory = new File(Nymph.class.getName());
+
+        if (!pluginDirectory.exists()) {
+            if (!pluginDirectory.mkdir()) {
+                return null;
+            }
+        }
+
+        if (pluginDirectory.canRead() && pluginDirectory.canWrite()) {
+            return pluginDirectory;
+        } else {
+            return null;
+        }
     }
 
 }
