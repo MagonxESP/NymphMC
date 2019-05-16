@@ -1,0 +1,15 @@
+name: Nymph
+version: 1.0.1
+author: magonxesp
+main: com.magonxesp.nymph.Nymph
+commands:
+  freeram:
+    description: Get actual free ram
+    usage: /freeram
+    permission: Nymph.system.freeram
+    permission-message: You don't have permission to execute this command!
+  spawnnymph:
+    description: Spawn Nymph NPC entity
+    usage: /invokenymph
+    permission: Nymph.npc.spawn
+    permission-message: You don't have permission to execute this command!
