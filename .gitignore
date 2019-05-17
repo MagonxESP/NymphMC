@@ -1,5 +1,5 @@
 out
 .idea
-src/META-INF
+src/**/META-INF
 *.iml
 target
