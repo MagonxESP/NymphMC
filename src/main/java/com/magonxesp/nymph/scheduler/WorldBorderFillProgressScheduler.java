@@ -16,6 +16,6 @@ public class WorldBorderFillProgressScheduler implements Runnable {
         double completed = event.getFillTask().getPercentageCompleted();
         String world = event.getFillTask().refWorld();
 
-        Nymph.broadcastMessage("El preprocesado de " + world + " esta al " + completed + "% completado", true);
+        Nymph.getPlugin().broadcastMessage("El preprocesado de " + world + " esta al " + completed + "% completado", true);
     }
 }

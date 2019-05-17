@@ -13,7 +13,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onWorldBorderFillStart(WorldBorderFillStartEvent event) {
-        Nymph.broadcastMessage("Se ha iniciado el preprocesado del mundo " + event.getFillTask().refWorld(), true);
+        Nymph.getPlugin().broadcastMessage("Se ha iniciado el preprocesado del mundo " + event.getFillTask().refWorld(), true);
         progressTaskId = Nymph.getPlugin()
                 .getServer()
                 .getScheduler()
@@ -23,7 +23,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onWorldBorderFillEnd(WorldBorderFillFinishedEvent event) {
-        Nymph.broadcastMessage("Se ha terminado el preprocesado del mundo " + event.getWorld().getName(), true);
+        Nymph.getPlugin().broadcastMessage("Se ha terminado el preprocesado del mundo " + event.getWorld().getName(), true);
 
         if (progressTaskId != 0) {
             Nymph.getPlugin().getServer().getScheduler().cancelTask(progressTaskId);

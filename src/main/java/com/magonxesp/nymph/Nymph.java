@@ -5,19 +5,16 @@ import com.magonxesp.nymph.command.FreeramCommand;
 import com.magonxesp.nymph.listener.WorldListener;
 import com.magonxesp.nymph.scheduler.UsageScheduler;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.magonxesp.nymph.listener.ServerListener;
 import org.bukkit.scheduler.BukkitScheduler;
 import java.io.IOException;
 import com.magonxesp.nymph.http.HttpRequest;
-import java.io.File;
 
 
 public class Nymph extends JavaPlugin {
-
-    private boolean debug;
-    private static String pluginDirectoryPath;
 
     @Override
     public void onLoad() {
@@ -31,6 +28,8 @@ public class Nymph extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig(); // init config file
+
         PluginManager pluginManager = getServer().getPluginManager();
         BukkitScheduler scheduler = getServer().getScheduler();
 
@@ -48,59 +47,39 @@ public class Nymph extends JavaPlugin {
             getLogger().warning(e.getMessage());
         }
 
-        File pluginDirectory = getPluginDir();
-
-        if (pluginDirectory != null) {
-            pluginDirectoryPath = pluginDirectory.getAbsolutePath();
-        }
-
         getLogger().info("Nymph enabled!");
+
+        if (getConfig().getBoolean("debug")) {
+            getLogger().info("Debug mode enabled!");
+        }
     }
 
-    public static JavaPlugin getPlugin() {
-        return Nymph.getPlugin(Nymph.class);
+    public static Nymph getPlugin() {
+        return getPlugin(Nymph.class);
     }
 
-    public static void broadcastMessage(String msg, boolean isInGame) {
+    public void broadcastMessage(String msg, boolean isInGame) {
         if (isInGame) {
             String prefix = "[" + Nymph.class.getName() + "]";
             Bukkit.broadcastMessage(prefix + " " + msg);
         }
 
-        try {
-            HttpRequest botRequest = new HttpRequest("http://192.168.1.46:5000/post", "POST");
-            botRequest.addHttpHeader("Content-Type", "application/x-www-form-urlencoded");
-            String params =  "status=" + msg;
+        if (!getConfig().getBoolean("debug")) {
+            try {
+                HttpRequest botRequest = new HttpRequest("http://192.168.1.46:5000/post", "POST");
+                botRequest.addHttpHeader("Content-Type", "application/x-www-form-urlencoded");
+                String params =  "status=" + msg;
 
-            botRequest.send(params);
-            int responseCode = botRequest.getResponseCode();
-            String response = botRequest.getResponse();
-            Nymph.getPlugin().getLogger().info("[Bot Request] Status: " + responseCode + "; Response: " + response);
-        } catch (IOException e) {
-            Nymph.getPlugin().getLogger().warning("[Bot Request] " + e.getMessage());
-        }
-
-        Nymph.getPlugin().getLogger().info("[Broadcast] " + msg);
-    }
-
-    private File getPluginDir() {
-        File pluginDirectory = new File(Nymph.class.getName());
-
-        if (!pluginDirectory.exists()) {
-            if (!pluginDirectory.mkdir()) {
-                return null;
+                botRequest.send(params);
+                int responseCode = botRequest.getResponseCode();
+                String response = botRequest.getResponse();
+                Nymph.getPlugin().getLogger().info("[Bot Request] Status: " + responseCode + "; Response: " + response);
+            } catch (IOException e) {
+                Nymph.getPlugin().getLogger().warning("[Bot Request] " + e.getMessage());
             }
         }
 
-        if (pluginDirectory.canRead() && pluginDirectory.canWrite()) {
-            return pluginDirectory;
-        } else {
-            return null;
-        }
-    }
-
-    public static String getDirectoryPath() {
-        return pluginDirectoryPath;
+        Nymph.getPlugin().getLogger().info("[Broadcast] " + msg);
     }
 
 }
