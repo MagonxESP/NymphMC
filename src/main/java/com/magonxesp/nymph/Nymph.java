@@ -17,6 +17,7 @@ import java.io.File;
 public class Nymph extends JavaPlugin {
 
     private boolean debug;
+    private static String pluginDirectoryPath;
 
     @Override
     public void onLoad() {
@@ -47,6 +48,12 @@ public class Nymph extends JavaPlugin {
             getLogger().warning(e.getMessage());
         }
 
+        File pluginDirectory = getPluginDir();
+
+        if (pluginDirectory != null) {
+            pluginDirectoryPath = pluginDirectory.getAbsolutePath();
+        }
+
         getLogger().info("Nymph enabled!");
     }
 
@@ -59,7 +66,7 @@ public class Nymph extends JavaPlugin {
             String prefix = "[" + Nymph.class.getName() + "]";
             Bukkit.broadcastMessage(prefix + " " + msg);
         }
-        /*
+
         try {
             HttpRequest botRequest = new HttpRequest("http://192.168.1.46:5000/post", "POST");
             botRequest.addHttpHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -72,11 +79,11 @@ public class Nymph extends JavaPlugin {
         } catch (IOException e) {
             Nymph.getPlugin().getLogger().warning("[Bot Request] " + e.getMessage());
         }
-        */
+
         Nymph.getPlugin().getLogger().info("[Broadcast] " + msg);
     }
 
-    public static File getPluginDir() {
+    private File getPluginDir() {
         File pluginDirectory = new File(Nymph.class.getName());
 
         if (!pluginDirectory.exists()) {
@@ -90,6 +97,10 @@ public class Nymph extends JavaPlugin {
         } else {
             return null;
         }
+    }
+
+    public static String getDirectoryPath() {
+        return pluginDirectoryPath;
     }
 
 }
