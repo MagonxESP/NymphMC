@@ -1,21 +1,25 @@
 package com.magonxesp.nymph.npc;
 
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.magonxesp.nymph.Nymph;
-import com.magonxesp.nymph.http.HttpRequest;
+import net.citizensnpcs.api.ai.Navigator;
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.event.SpawnReason;
+import net.citizensnpcs.api.npc.AbstractNPC;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.citizensnpcs.api.npc.BlockBreaker;
 import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class NymphEntity {
+public class NymphEntity extends AbstractNPC {
 
     private EntityPlayer entityPlayer;
     private GameProfile gameProfile;
@@ -24,11 +28,57 @@ public class NymphEntity {
     private WorldServer worldServer;
 
     public NymphEntity(MinecraftServer minecraftserver, WorldServer worldserver) {
+        super();
         this.gameProfile = new GameProfile(UUID.randomUUID(), "Nymph");
         this.playerInteractManager = new PlayerInteractManager(worldserver);
         this.minecraftServer = minecraftserver;
         this.worldServer = worldserver;
         this.setSkin();
+    }
+
+    @Override
+    public boolean despawn(DespawnReason despawnReason) {
+        return false;
+    }
+
+    @Override
+    public void faceLocation(Location location) {
+
+    }
+
+    @Override
+    public BlockBreaker getBlockBreaker(Block block, BlockBreaker.BlockBreakerConfiguration blockBreakerConfiguration) {
+        return null;
+    }
+
+    @Override
+    public Entity getEntity() {
+        return null;
+    }
+
+    @Override
+    public Navigator getNavigator() {
+        return null;
+    }
+
+    @Override
+    public Location getStoredLocation() {
+        return null;
+    }
+
+    @Override
+    public void setBukkitEntityType(EntityType entityType) {
+
+    }
+
+    @Override
+    public boolean spawn(Location location) {
+        return false;
+    }
+
+    @Override
+    public boolean spawn(Location location, SpawnReason spawnReason) {
+        return false;
     }
 
     private void setSkin() {
