@@ -1,6 +1,7 @@
 package com.magonxesp.nymph;
 
 
+import com.magonxesp.nymph.command.DespawnNymph;
 import com.magonxesp.nymph.command.FreeramCommand;
 import com.magonxesp.nymph.command.SpawnNymphCommand;
 import com.magonxesp.nymph.listener.WorldListener;
@@ -45,6 +46,7 @@ public class Nymph extends JavaPlugin {
             // command register
             getCommand("freeram").setExecutor(new FreeramCommand());
             getCommand("spawn_nymph").setExecutor(new SpawnNymphCommand());
+            getCommand("despawn_nymph").setExecutor(new DespawnNymph());
         } catch (NullPointerException e) {
             getLogger().warning(e.getMessage());
         }

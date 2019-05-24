@@ -13,3 +13,8 @@ commands:
     usage: /spawn_nymph
     permission: Nymph.npc.spawn
     permission-message: You don't have permission to execute this command!
+  despawn_nymph:
+    description: Despawn Nymph NPC entity
+    usage: /despawn_nymph
+    permission: Nymph.npc.despawn
+    permission-message: You don't have permission to execute this command!

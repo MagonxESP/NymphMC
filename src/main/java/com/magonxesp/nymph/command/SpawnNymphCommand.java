@@ -1,15 +1,11 @@
 package com.magonxesp.nymph.command;
 
-import net.minecraft.server.v1_13_R2.WorldServer;
+import com.magonxesp.nymph.Nymph;
 import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import com.magonxesp.nymph.npc.NymphEntity;
-import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import org.bukkit.entity.Player;
 
 public class SpawnNymphCommand implements CommandExecutor {
@@ -20,16 +16,10 @@ public class SpawnNymphCommand implements CommandExecutor {
             return false;
         }
 
-        Server server = commandSender.getServer();
-        World world = commandSender.getServer().getWorld("Apocalisis maincra");
-        NymphEntity nymphEntity = new NymphEntity(((CraftServer) server).getServer(), ((CraftWorld) world).getHandle());
-        Location location;
-
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            location = player.getLocation();
-
-            nymphEntity.spawn(player, location);
+            Location location = player.getLocation();
+            spawnNPC(location);
             commandSender.sendMessage("Nymph ha aparecido en: " + location.toString());
         } else {
             commandSender.sendMessage("Este comando solo puede ser usado por un jugador!");
@@ -38,4 +28,15 @@ public class SpawnNymphCommand implements CommandExecutor {
         return true;
     }
 
+
+    private void spawnNPC(Location location) {
+        NymphEntity nymphEntity = new NymphEntity();
+        String skinName = Nymph.getPlugin().getConfig().getString("npc.Nymph.skin.name");
+        String uuid = Nymph.getPlugin().getConfig().getString("npc.Nymph.skin.uuid");
+        String texture = Nymph.getPlugin().getConfig().getString("npc.Nymph.skin.texture");
+        String signature = Nymph.getPlugin().getConfig().getString("npc.Nymph.skin.signature");
+
+        nymphEntity.setSkin(skinName, uuid, texture, signature);
+        nymphEntity.getNPC().spawn(location);
+    }
 }
