@@ -25,6 +25,7 @@ public class Nymph extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        broadcastMessage("Se ha apagado el server!", false);
         getLogger().info("Nymph disabled!");
     }
 
