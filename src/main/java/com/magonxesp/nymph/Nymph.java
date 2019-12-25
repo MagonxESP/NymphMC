@@ -5,6 +5,7 @@ import com.magonxesp.nymph.command.FreeramCommand;
 import com.magonxesp.nymph.listener.WorldListener;
 import com.magonxesp.nymph.scheduler.UsageScheduler;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,11 +46,11 @@ public class Nymph extends JavaPlugin {
         // scheduler tasks
         scheduler.scheduleSyncRepeatingTask(this, new UsageScheduler(), 0, 5 * 20); // each 5 seconds
 
-        try {
-            // command register
-            getCommand("freeram").setExecutor(new FreeramCommand());
-        } catch (NullPointerException e) {
-            getLogger().warning(e.getMessage());
+        // command register
+        PluginCommand command = getCommand("freeram");
+
+        if (command != null) {
+            command.setExecutor(new FreeramCommand());
         }
 
         getLogger().info("Nymph enabled!");
