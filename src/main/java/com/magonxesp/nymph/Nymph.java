@@ -1,13 +1,10 @@
 package com.magonxesp.nymph;
 
 
-import com.magonxesp.nymph.command.DespawnNymph;
 import com.magonxesp.nymph.command.FreeramCommand;
-import com.magonxesp.nymph.command.SpawnNymphCommand;
 import com.magonxesp.nymph.listener.WorldListener;
 import com.magonxesp.nymph.scheduler.UsageScheduler;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.magonxesp.nymph.listener.ServerListener;
@@ -46,8 +43,6 @@ public class Nymph extends JavaPlugin {
         try {
             // command register
             getCommand("freeram").setExecutor(new FreeramCommand());
-            getCommand("spawn_nymph").setExecutor(new SpawnNymphCommand());
-            getCommand("despawn_nymph").setExecutor(new DespawnNymph());
         } catch (NullPointerException e) {
             getLogger().warning(e.getMessage());
         }
@@ -71,7 +66,24 @@ public class Nymph extends JavaPlugin {
 
         if (!getConfig().getBoolean("debug")) {
             try {
-                HttpRequest botRequest = new HttpRequest("http://192.168.1.46:5000/post", "POST");
+                String http_host = getConfig().getString("bot_http_host");
+                String http_port = getConfig().getString("bot_http_port");
+                boolean ssl_enabled = getConfig().getBoolean("bot_http_is_ssl");
+                String http_protocol = "http";
+
+                if (ssl_enabled) {
+                    http_protocol = "https";
+                }
+
+                String url = http_protocol + "://" + http_host;
+
+                if (http_port != null && !http_port.equals("80") && !http_port.equals("443")) {
+                    url += ":" + http_port;
+                }
+
+                url += "/post";
+
+                HttpRequest botRequest = new HttpRequest(url, "POST");
                 botRequest.addHttpHeader("Content-Type", "application/x-www-form-urlencoded");
                 String params =  "status=" + msg;
 
