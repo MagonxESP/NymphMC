@@ -5,6 +5,7 @@ import com.magonxesp.nymph.command.FreeramCommand;
 import com.magonxesp.nymph.listener.WorldListener;
 import com.magonxesp.nymph.scheduler.UsageScheduler;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.magonxesp.nymph.listener.ServerListener;
@@ -32,10 +33,14 @@ public class Nymph extends JavaPlugin {
 
         PluginManager pluginManager = getServer().getPluginManager();
         BukkitScheduler scheduler = getServer().getScheduler();
+        Plugin worldborder = getServer().getPluginManager().getPlugin("WorldBorder");
 
         // pluginManager events register
         pluginManager.registerEvents(new ServerListener(), this);
-        pluginManager.registerEvents(new WorldListener(), this);
+
+        if (worldborder != null) {
+            pluginManager.registerEvents(new WorldListener(), this);
+        }
 
         // scheduler tasks
         scheduler.scheduleSyncRepeatingTask(this, new UsageScheduler(), 0, 5 * 20); // each 5 seconds
